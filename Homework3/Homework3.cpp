@@ -4,13 +4,14 @@
 #include "stdafx.h"
 #include <iostream>
 #include <string>
-#include <ctime>
+#include <chrono>
+#include <math.h>
 
 using namespace std;
 
 const int NUM_OF_LIGHTS = 4;
 
-time_t startTime = time(0);
+auto startTime = chrono::high_resolution_clock::now();
 
 enum direction {
 	north = 0 , south = 1 , east = 2 , west = 3
@@ -54,17 +55,6 @@ public:
 	void cycleLights() {
 		this->lightColor = this->lightColor == "red" ? "green" : "red";
 		
-		/*switch(this->direction) {
-		case north:
-		case south:
-			this->lightColor = this->lightColor == "red" ? "green" : "red";
-			break;
-		case east:
-		case west:
-			this->lightColor = this->lightColor == "red" ? "green" : "red";
-			break;
-		}*/
-
 		if(this->nextLight != NULL) {
 			this->nextLight->cycleLights();
 		}
@@ -105,7 +95,7 @@ private:
 	direction direction;
 };
 
-int _tmain(int argc , _TCHAR* argv []) {
+int main() {
 	StopLight lights [] = {
 		StopLight("green" , direction::north , &lights[1]) ,
 		StopLight("green" , direction::south , &lights[2]) ,
@@ -113,15 +103,25 @@ int _tmain(int argc , _TCHAR* argv []) {
 		StopLight("red" , direction::east , NULL)
 	};
 
-	lights[0].cycleLights();
-
-	StopLight::emergencyChange(direction::north , lights);
+	//lights[0].cycleLights();
+	//StopLight::emergencyChange(direction::north , lights);
 	//StopLight::resetLights(lights);
 
-	for each (auto var in lights) {
-		cout << var.getDirection() << ": ";
-		var.printLightColor();
-		cout << endl;
+	int seconds = 0;
+	while(seconds <= 60) {
+		lights[1].setLightColor("yellow");
+		_sleep(3000);
+		seconds += 3;
+
+		if(seconds % 6 == 0) {
+			cout << "--------------------------" << endl;
+			for(auto item : lights) {
+				cout << item.getDirection() << ": "
+					<< item.getLightColor() << endl;
+			}
+
+			lights[0].cycleLights();
+		}
 	}
 
 	return 0;
