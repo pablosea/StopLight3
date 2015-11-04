@@ -109,11 +109,15 @@ int main() {
 
 	int seconds = 0;
 	while(seconds <= 60) {
-		lights[1].setLightColor("yellow");
+		
+		for(int i = 0; i < NUM_OF_LIGHTS; i++) {
+
+		}
+
 		_sleep(3000);
 		seconds += 3;
 
-		if(seconds % 6 == 0) {
+		if(seconds % 12 == 0) {
 			cout << "--------------------------" << endl;
 			for(auto item : lights) {
 				cout << item.getDirection() << ": "
