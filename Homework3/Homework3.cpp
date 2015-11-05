@@ -53,7 +53,12 @@ public:
 	}
 
 	void cycleLights() {
-		this->lightColor = this->lightColor == "red" ? "green" : "red";
+		if(this->lightColor == "red") {
+			this->lightColor = "green";
+		}
+		else {
+			this->lightColor = "red";
+		}
 		
 		if(this->nextLight != NULL) {
 			this->nextLight->cycleLights();
@@ -79,8 +84,6 @@ public:
 			case east:
 			case west:
 				lights[i].setLightColor("red");
-				break;
-			default:
 				break;
 			}
 		}
@@ -108,11 +111,7 @@ int main() {
 	//StopLight::resetLights(lights);
 
 	int seconds = 0;
-	while(seconds <= 60) {
-		
-		for(int i = 0; i < NUM_OF_LIGHTS; i++) {
-
-		}
+	while(true) {
 
 		_sleep(3000);
 		seconds += 3;
@@ -130,4 +129,3 @@ int main() {
 
 	return 0;
 }
-
